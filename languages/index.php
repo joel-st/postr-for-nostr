@@ -1,0 +1,2 @@
+<?php
+# Commitment is golden.
