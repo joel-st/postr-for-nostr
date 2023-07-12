@@ -183,6 +183,7 @@ class Plugin {
 	public function nostr_postr_initialize() {
 		if ( isset( $_GET ) && isset( $_GET['action'] ) && 'nostr-postr' === $_GET['action'] ) {
 			echo '<title>' . _x( 'Nostr Postr', 'Nostr Postr window meta title', 'nostr-postr' ) . '</title>';
+            echo '<meta name="viewport" content="width=device-width, initial-scale=1" />';
             // enqueue nostr-postr assets and styles
 			nostr_postr()->Plugin->Assets->enqueue_scripts_styles();
 			do_action( 'wp_head' );
