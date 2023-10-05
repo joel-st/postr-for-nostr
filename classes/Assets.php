@@ -7,10 +7,10 @@ namespace JoelMelon\Plugins\NostrPostr\Plugin;
  *
  * Two script files and one style file are necessary for the plugin to work.
  * 
- * nostr-postr.js => Nostr Postr window react component
- * This script gets enqueued only in the Nostr Postr window
+ * postr-for-nostr.js => Postr for Nostr window react component
+ * This script gets enqueued only in the Postr for Nostr window
  * 
- * nostr-postr-trigger.js => Opens the Nostr Postr window on click on elements with class .nostr-postr
+ * postr-for-nostr-trigger.js => Opens the Postr for Nostr window on click on elements with class .postr-for-nostr
  * This script gets enqueued on init in front- and backend
  *
  * @author Joel Stüdle <joel.stuedle@gmail.com>
@@ -31,37 +31,37 @@ class Assets {
 	}
 
 	/**
-	 * Nostr Postr window react component
-     * This script gets enqueued only in the Nostr Postr window
+	 * Postr for Nostr window react component
+     * This script gets enqueued only in the Postr for Nostr window
 	 *
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts_styles() {
 		// js
-		if ( file_exists( nostr_postr()->plugin_dir . '/assets/scripts/nostr-postr.js' ) ) {
-			$js = file_get_contents( nostr_postr()->plugin_dir . '/assets/scripts/nostr-postr.js' );
+		if ( file_exists( nostr_postr()->plugin_dir . '/assets/scripts/postr-for-nostr.js' ) ) {
+			$js = file_get_contents( nostr_postr()->plugin_dir . '/assets/scripts/postr-for-nostr.js' );
 
-			wp_register_script( 'nostr-postr-js', nostr_postr()->plugin_url . '/assets/scripts/nostr-postr.js', array( 'wp-element' ), md5( $js ), true );
-			wp_enqueue_script( 'nostr-postr-js' );
+			wp_register_script( 'postr-for-nostr-js', nostr_postr()->plugin_url . '/assets/scripts/postr-for-nostr.js', array( 'wp-element' ), md5( $js ), true );
+			wp_enqueue_script( 'postr-for-nostr-js' );
 
 			$localize_script_data = $this->localize_script_data();
 
-			wp_set_script_translations( 'nostr-postr-js', nostr_postr()->text_domain );
-			wp_localize_script( 'nostr-postr-js', 'nostr_postr_localize', array( 'data' => $localize_script_data ) );
+			wp_set_script_translations( 'postr-for-nostr-js', nostr_postr()->text_domain );
+			wp_localize_script( 'postr-for-nostr-js', 'nostr_postr_localize', array( 'data' => $localize_script_data ) );
 		}
 
 		// css
-		if ( file_exists( nostr_postr()->plugin_dir . '/assets/styles/nostr-postr.css' ) ) {
-			$css = file_get_contents( nostr_postr()->plugin_dir . '/assets/styles/nostr-postr.css' );
+		if ( file_exists( nostr_postr()->plugin_dir . '/assets/styles/postr-for-nostr.css' ) ) {
+			$css = file_get_contents( nostr_postr()->plugin_dir . '/assets/styles/postr-for-nostr.css' );
 
-			wp_register_style( 'nostr-postr-css', nostr_postr()->plugin_url . '/assets/styles/nostr-postr.css', array( 'dashicons' ), md5( $css ) );
-			wp_enqueue_style( 'nostr-postr-css' );
+			wp_register_style( 'postr-for-nostr-css', nostr_postr()->plugin_url . '/assets/styles/postr-for-nostr.css', array( 'dashicons' ), md5( $css ) );
+			wp_enqueue_style( 'postr-for-nostr-css' );
 		}
 	}
 
 	/**
-	 * Provides a data variable 'nostr_postr_localize' for the nostr-postr.js script 
-     * with necessary data for the Nostr Postr window
+	 * Provides a data variable 'nostr_postr_localize' for the postr-for-nostr.js script 
+     * with necessary data for the Postr for Nostr window
 	 *
 	 * @since    1.0.0
 	 */
@@ -107,23 +107,23 @@ class Assets {
 			'post_id'             => $post_id,
 			'post_type'           => $post_type,
 			'post_data'           => $post_data,
-			'profile_placeholder' => nostr_postr()->plugin_url . '/assets/media/nostr-postr-profile-placeholder.jpg',
+			'profile_placeholder' => nostr_postr()->plugin_url . '/assets/media/postr-for-nostr-profile-placeholder.jpg',
 		);
 	}
 
 	/**
-	 * Opens the Nostr Postr window on click on elements with class .nostr-postr
+	 * Opens the Postr for Nostr window on click on elements with class .postr-for-nostr
      * This script gets enqueued on init in front- and backend
 	 *
 	 * @since    1.0.0
 	 */
 	public function enqueue_trigger_script() {
 		// js
-		if ( file_exists( nostr_postr()->plugin_dir . '/assets/scripts/nostr-postr-trigger.js' ) ) {
-			$js = file_get_contents( nostr_postr()->plugin_dir . '/assets/scripts/nostr-postr-trigger.js' );
+		if ( file_exists( nostr_postr()->plugin_dir . '/assets/scripts/postr-for-nostr-trigger.js' ) ) {
+			$js = file_get_contents( nostr_postr()->plugin_dir . '/assets/scripts/postr-for-nostr-trigger.js' );
 
-			wp_register_script( 'nostr-postr-trigger-js', nostr_postr()->plugin_url . '/assets/scripts/nostr-postr-trigger.js', array(), md5( $js ), true );
-			wp_enqueue_script( 'nostr-postr-trigger-js' );
+			wp_register_script( 'postr-for-nostr-trigger-js', nostr_postr()->plugin_url . '/assets/scripts/postr-for-nostr-trigger.js', array(), md5( $js ), true );
+			wp_enqueue_script( 'postr-for-nostr-trigger-js' );
 		}
 	}
 }

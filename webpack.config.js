@@ -8,8 +8,8 @@ module.exports = (env, argv) => {
     return {
         // mode specified in package.json scripts
         entry: {
-            'nostr-postr-trigger': [path.resolve(__dirname, '.build/trigger/index.js')],
-            'nostr-postr': [path.resolve(__dirname, '.build/nostr-postr/index.js'), path.resolve(__dirname, '.build/nostr-postr/index.scss')]
+            'postr-for-nostr-trigger': [path.resolve(__dirname, '.build/trigger/index.js')],
+            'postr-for-nostr': [path.resolve(__dirname, '.build/postr-for-nostr/index.js'), path.resolve(__dirname, '.build/postr-for-nostr/index.scss')]
         },
         watch: !production,
         watchOptions: {

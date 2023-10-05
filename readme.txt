@@ -1,7 +1,7 @@
-=== Nostr Postr For Wordpress ===
+=== Wordpress Postr For Nostr ===
 
 Contributors: joelmelon
-Donate link: https://nostr-postr.joelstuedle.ch/
+Donate link: https://postr-for-nostr.joelstuedle.ch/
 Tags: Nostr, Social, Sharing, NIP-07
 Requires PHP: 7.4
 Tested up to: 6.2.2
@@ -9,7 +9,7 @@ Stable tag: 1.0.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Share your WordPress Posts to Nostr with Nostr Postr 🫂
+Share your WordPress Posts to Nostr with Wordpress Postr For Nostr 🫂
 
 == Features ==
 
@@ -19,20 +19,20 @@ Share your WordPress Posts to Nostr with Nostr Postr 🫂
 
 == Demo ==
 
-A demo WordPress installation with Nostr Postr is available [here](https://nostr-postr.joelstuedle.ch/).
+A demo WordPress installation with Wordpress Postr For Nostr is available [here](https://postr-for-nostr.joelstuedle.ch/).
 
 == Installation ==
 
-1. Upload the `nostr-postr` folder to the `/wp-content/plugins/` directory
+1. Upload the `postr-for-nostr` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the `Plugins` menu in WordPress.
 
 == Usage ==
 
 Logged in users will find a `Post to Nostr` button in the admin column actions (where the `Quick Edit` action is located).
 
-If you want to provide Nostr Postr to your visitors, simply place a button somewhere in your template. Make sure to add the `nostr-postr` class, `data-post-id` and `data-post-type` attribute as shown below.
+If you want to provide Wordpress Postr For Nostr to your visitors, simply place a button somewhere in your template. Make sure to add the `postr-for-nostr` class, `data-post-id` and `data-post-type` attribute as shown below.
 ```
-<button type="button" class="nostr-postr" data-post-id="[ID]" data-post-type="[POST_TYPE]">Share</button>
+<button type="button" class="postr-for-nostr" data-post-id="[ID]" data-post-type="[POST_TYPE]">Share</button>
 ```
 
 == Filters ==
@@ -53,7 +53,7 @@ add_filter( 'nostr_postr_post_types', function( $post_types ) {
 
 == Screenshots ==
 
-1. A preview of postring to Nostr with Nostr Postr.
+1. A preview of postring to Nostr with Wordpress Postr For Nostr.
 2. The Post to Nostr button in the WordPress admin column actions.
 
 == Changelog ==

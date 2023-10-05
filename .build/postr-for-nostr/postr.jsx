@@ -7,12 +7,12 @@ const { render, useEffect, useState, Fragment, useRef } = wp.element;
 // import nostr-tools
 import * as nostr_tools from 'nostr-tools';
 
-// initialize and render nostr-postr component
+// initialize and render postr-for-nostr component
 export function init(element) {
     render(<NostrPostr />, element);
 }
 
-// the nostr-postr component
+// the postr-for-nostr component
 const NostrPostr = (props) => {
 
     // unless this is false, the component shows the initializing element
@@ -28,7 +28,7 @@ const NostrPostr = (props) => {
                 }, 250);
             } else {
                 setTimeout(() => {
-                    set_nip07({ status: false, data: _x('NIP-07 extension could not be detected. Make sure to have a NIP-07 extension installed, then reload this window and try again.', 'react component error', 'nostr-postr') });
+                    set_nip07({ status: false, data: _x('NIP-07 extension could not be detected. Make sure to have a NIP-07 extension installed, then reload this window and try again.', 'react component error', 'postr-for-nostr') });
                 }, 250);
             };
         })
@@ -43,10 +43,10 @@ const NostrPostr = (props) => {
                     if (nostr_postr_localize.data.post_type in nostr_postr_localize.data.post_types) {
                         set_post_data({ status: true, data: nostr_postr_localize.data.post_data });
                     } else {
-                        set_post_data({ status: false, data: _x('Posts from this post type cannot be postred.', 'component error', 'nostr-postr') });
+                        set_post_data({ status: false, data: _x('Posts from this post type cannot be postred.', 'component error', 'postr-for-nostr') });
                     }
                 } else {
-                    set_post_data({ status: false, data: _x('Invalid Post Data', 'component error', 'nostr-postr') });
+                    set_post_data({ status: false, data: _x('Invalid Post Data', 'component error', 'postr-for-nostr') });
                 }
             }, 250)
         }
@@ -65,11 +65,11 @@ const NostrPostr = (props) => {
                     if (response) {
                         set_public_key_hex({ status: true, data: response });
                         setTimeout(() => {
-                            document.body.classList.remove('nostr-postr-app--initializing');
+                            document.body.classList.remove('postr-for-nostr-app--initializing');
                             set_initializing(false);
                         }, 500);
                     } else {
-                        set_public_key_hex({ status: false, data: _x('User denied', 'component error', 'nostr-postr') });
+                        set_public_key_hex({ status: false, data: _x('User denied', 'component error', 'postr-for-nostr') });
                     }
 
                 });
@@ -89,7 +89,7 @@ const NostrPostr = (props) => {
 
     // if relays is updated, check if we need to fetch postr profile (event kind 0)
     const [postr_profile, set_postr_profile] = useState({
-        name: _x('Anonymous Postr', 'postr profile component name', 'nostr-postr'),
+        name: _x('Anonymous Postr', 'postr profile component name', 'postr-for-nostr'),
         picture: nostr_postr_localize.data.profile_placeholder,
         npub: 'xxxxxxxxxxxxxxxxx',
         fetch: true
@@ -141,20 +141,20 @@ const NostrPostr = (props) => {
 
     const StateIndicator = (props) => {
         return <Fragment>
-            <div className="nostr-postr-app__state-loader">
+            <div className="postr-for-nostr-app__state-loader">
                 {!props.state
-                    ? <div class="nostr-postr-app__spinner"><div></div><div></div><div></div><div></div></div>
+                    ? <div class="postr-for-nostr-app__spinner"><div></div><div></div><div></div><div></div></div>
                     : props.state.status ? '✅' : '❌'}
             </div>
             {false === props.state || props.state.status ? props.task : props.state.data}
         </Fragment>;
     }
     const Initialize = (props) => {
-        return <div className="nostr-postr-app__verify-nip07">
-            <ul className="nostr-postr-app__state-indicator-list">
-                <li><StateIndicator state={nip07} task={_x('Looking for NIP-07 extension', 'component initalize task', 'nostr-postr')} /></li>
-                <li><StateIndicator state={post_data} task={_x('Verifying post data', 'component initalize task', 'nostr-postr')} /></li>
-                <li><StateIndicator state={public_key_hex} task={_x('Retrieving public key', 'component initalize task', 'nostr-postr')} /></li>
+        return <div className="postr-for-nostr-app__verify-nip07">
+            <ul className="postr-for-nostr-app__state-indicator-list">
+                <li><StateIndicator state={nip07} task={_x('Looking for NIP-07 extension', 'component initalize task', 'postr-for-nostr')} /></li>
+                <li><StateIndicator state={post_data} task={_x('Verifying post data', 'component initalize task', 'postr-for-nostr')} /></li>
+                <li><StateIndicator state={public_key_hex} task={_x('Retrieving public key', 'component initalize task', 'postr-for-nostr')} /></li>
             </ul>
         </div>;
     }
@@ -172,20 +172,20 @@ const NostrPostr = (props) => {
         }
 
         return (
-            <div className="nostr-postr-app__postr-relays">
-                {relays && <button type="button" className="nostr-postr-app__postr-relays-toggle" onClick={() => set_relays_visible(!relays_visible)}>
-                    <span className="nostr-postr-app__postr-relays-toggle-title">{Object.keys(relays).length + ' Relays'}</span>
-                    <span className="nostr-postr-app__postr-relays-toggle-horizontal">
-                        <span className="nostr-postr-app__postr-relays-toggle-line"></span>
+            <div className="postr-for-nostr-app__postr-relays">
+                {relays && <button type="button" className="postr-for-nostr-app__postr-relays-toggle" onClick={() => set_relays_visible(!relays_visible)}>
+                    <span className="postr-for-nostr-app__postr-relays-toggle-title">{Object.keys(relays).length + ' Relays'}</span>
+                    <span className="postr-for-nostr-app__postr-relays-toggle-horizontal">
+                        <span className="postr-for-nostr-app__postr-relays-toggle-line"></span>
                         {relays_visible && <span class="dashicons dashicons-arrow-down-alt2"></span>}
                         {!relays_visible && <span class="dashicons dashicons-arrow-up-alt2"></span>}
                     </span>
                 </button>}
-                {relays && relays_visible && <ul className="nostr-postr-app__postr-relays">
+                {relays && relays_visible && <ul className="postr-for-nostr-app__postr-relays">
                     {Object.keys(relays).map((rkey) => {
                         if (rkey.length && relays[rkey].write) {
                             return <li key={rkey}>
-                                <span className="nostr-postr-app__postr-relay-label">{rkey}</span>
+                                <span className="postr-for-nostr-app__postr-relay-label">{rkey}</span>
                                 <button title={'Remove Relay'} type="button" onClick={() => {
                                     let relays_update = Object.assign({}, relays);
                                     delete relays_update[rkey];
@@ -194,8 +194,8 @@ const NostrPostr = (props) => {
                             </li>
                         }
                     })}
-                    <li class="nostr-postr-app__postr-relay-add">
-                        <input placeholder="Add relay …" value={add_value} className='nostr-postr-app__postr-relay-label' onChange={(event) => {
+                    <li class="postr-for-nostr-app__postr-relay-add">
+                        <input placeholder="Add relay …" value={add_value} className='postr-for-nostr-app__postr-relay-label' onChange={(event) => {
                             let valid = validate_websocket_url(event.target.value);
                             if (valid) set_add_valid(true);
                             else set_add_valid(false);
@@ -209,7 +209,7 @@ const NostrPostr = (props) => {
                             }
                         }}></input>
                         <button
-                            title={_x('Add Relay', 'relays component button label', 'nostr-postr')}
+                            title={_x('Add Relay', 'relays component button label', 'postr-for-nostr')}
                             type="button"
                             disabled={add_valid ? false : true}
                             onClick={on_add_relay}>
@@ -246,18 +246,18 @@ const NostrPostr = (props) => {
         }
 
         return (
-            <div className="nostr-postr-app__postr-tags">
-                {postr_tags && <button type="button" className="nostr-postr-app__postr-tags-toggle" onClick={() => set_tags_visible(!tags_visible)}>
-                    <span className="nostr-postr-app__postr-tags-toggle-title">{Object.keys(postr_tags.list).length + '/' + postr_tags.total + ' Tags'}</span>
-                    <span className="nostr-postr-app__postr-tags-toggle-horizontal">
-                        <span className="nostr-postr-app__postr-tags-toggle-line"></span>
+            <div className="postr-for-nostr-app__postr-tags">
+                {postr_tags && <button type="button" className="postr-for-nostr-app__postr-tags-toggle" onClick={() => set_tags_visible(!tags_visible)}>
+                    <span className="postr-for-nostr-app__postr-tags-toggle-title">{Object.keys(postr_tags.list).length + '/' + postr_tags.total + ' Tags'}</span>
+                    <span className="postr-for-nostr-app__postr-tags-toggle-horizontal">
+                        <span className="postr-for-nostr-app__postr-tags-toggle-line"></span>
                         {tags_visible && <span class="dashicons dashicons-arrow-down-alt2"></span>}
                         {!tags_visible && <span class="dashicons dashicons-arrow-up-alt2"></span>}
                     </span>
                 </button>}
                 {postr_tags && tags_visible && <Fragment>
-                    <p className="nostr-postr-app__postr-tag-notice"><i>{_x('These tags are added as type t tags in the Nostr event object.', 'tags component notice', 'nostr-postr')}</i></p>
-                    <div className="nostr-postr-app__postr-tag-types">
+                    <p className="postr-for-nostr-app__postr-tag-notice"><i>{_x('These tags are added as type t tags in the Nostr event object.', 'tags component notice', 'postr-for-nostr')}</i></p>
+                    <div className="postr-for-nostr-app__postr-tag-types">
                         {Object.keys(post_data.data.taxonomies).map(tax => {
                             if (Object.keys(post_data.data.taxonomies[tax].terms).length) {
                                 return (<div>
@@ -277,13 +277,13 @@ const NostrPostr = (props) => {
                                 </div>)
                             }
                         })}
-                        <div className="nostr-postr-app__postr-tags-custom">
-                            <h5>{_x('Add custom tags', 'tags component title', 'nostr-postr')}</h5>
+                        <div className="postr-for-nostr-app__postr-tags-custom">
+                            <h5>{_x('Add custom tags', 'tags component title', 'postr-for-nostr')}</h5>
                             <ul>
                                 {Object.keys(postr_tags.list).map(tkey => {
                                     if (tkey.startsWith('custom-')) {
                                         return <li key={tkey}>
-                                            <span className="nostr-postr-app__postr-tag-label">{postr_tags.list[tkey]}</span>
+                                            <span className="postr-for-nostr-app__postr-tag-label">{postr_tags.list[tkey]}</span>
                                             <button title={'Remove Tag'} type="button" onClick={() => {
                                                 let postr_tags_update = Object.assign({}, postr_tags);
                                                 delete postr_tags_update.list[tkey];
@@ -292,8 +292,8 @@ const NostrPostr = (props) => {
                                         </li>
                                     }
                                 })}
-                                <li class="nostr-postr-app__postr-tag-add">
-                                    <input placeholder="Add tag …" value={add_value} className='nostr-postr-app__postr-tag-label' onChange={(event) => {
+                                <li class="postr-for-nostr-app__postr-tag-add">
+                                    <input placeholder="Add tag …" value={add_value} className='postr-for-nostr-app__postr-tag-label' onChange={(event) => {
                                         let valid = validate_tag(event.target.value) || postr_tags.list['custom-' + event.target.value.toLowerCase()];
                                         if (valid) set_add_valid(true);
                                         else set_add_valid(false);
@@ -307,7 +307,7 @@ const NostrPostr = (props) => {
                                         }
                                     }}></input>
                                     <button
-                                        title={_x('Add tag', 'tags component button label', 'nostr-postr')}
+                                        title={_x('Add tag', 'tags component button label', 'postr-for-nostr')}
                                         disabled={add_valid && 'undefined' === typeof postr_tags.list['custom-' + add_value.toLowerCase()] ? false : true}
                                         type="button"
                                         onClick={on_add_tag}>
@@ -332,19 +332,19 @@ const NostrPostr = (props) => {
     }
 
     const Postr = () => {
-        return <div className="nostr-postr-app__postr">
-            <h2 className="nostr-postr-app__postr-title">{_x('Nostr Postr', 'form component title', 'nostr-postr')}</h2>
+        return <div className="postr-for-nostr-app__postr">
+            <h2 className="postr-for-nostr-app__postr-title">{_x('Postr For Nostr', 'form component title', 'postr-for-nostr')}</h2>
             {!postring && <Form />}
             {postring && <Postring />}
         </div>;
     }
     const Form = () => {
-        return <form className={"nostr-postr-app__postr-form"} onSubmit={on_postr}>
-            <fieldset className="nostr-postr-app__postr-profile">
-                <label><strong>{_x('Profile', 'form component label', 'nostr-postr')}</strong></label>
+        return <form className={"postr-for-nostr-app__postr-form"} onSubmit={on_postr}>
+            <fieldset className="postr-for-nostr-app__postr-profile">
+                <label><strong>{_x('Profile', 'form component label', 'postr-for-nostr')}</strong></label>
                 <div>
                     <figure>
-                        {postr_profile.picture && <img src={postr_profile.picture} alt={_x('Profile image', 'form component image alt title', 'nostr-postr')} />}
+                        {postr_profile.picture && <img src={postr_profile.picture} alt={_x('Profile image', 'form component image alt title', 'postr-for-nostr')} />}
                     </figure>
                     <p>
                         <strong>{postr_profile.name}</strong>
@@ -353,12 +353,12 @@ const NostrPostr = (props) => {
                 </div>
             </fieldset>
             <fieldset>
-                <label><strong>{_x('Note', 'form component label', 'nostr-postr')}</strong></label>
+                <label><strong>{_x('Note', 'form component label', 'postr-for-nostr')}</strong></label>
                 <div>
                     <textarea
                         name="note"
                         defaultValue={postr_note}
-                        placeholder={_x('Write notes and other stuff…', 'form component textare placeholder', 'nostr-postr')}
+                        placeholder={_x('Write notes and other stuff…', 'form component textare placeholder', 'postr-for-nostr')}
                         rows={6}
                         onBlur={(event) => {
                             let value_update = event.target.value;
@@ -369,17 +369,17 @@ const NostrPostr = (props) => {
                 </div>
             </fieldset>
             <fieldset>
-                <label><strong>{_x('Tags', 'form component label', 'nostr-postr')}</strong></label>
+                <label><strong>{_x('Tags', 'form component label', 'postr-for-nostr')}</strong></label>
                 <div><TagList /></div>
             </fieldset>
             <fieldset>
-                <label><strong>{_x('Relays', 'form component label', 'nostr-postr')}</strong></label>
+                <label><strong>{_x('Relays', 'form component label', 'postr-for-nostr')}</strong></label>
                 <div><RelayList /></div>
             </fieldset>
-            <fieldset className="nostr-postr-app__postr-actions">
-                <label><strong>{_x('Form Actions', 'form component label', 'nostr-postr')}</strong></label>
+            <fieldset className="postr-for-nostr-app__postr-actions">
+                <label><strong>{_x('Form Actions', 'form component label', 'postr-for-nostr')}</strong></label>
                 <div>
-                    <button type="submit" className={'button button-primary'}>{_x('Transmit to Nostr', 'form component button label', 'nostr-postr')}</button>
+                    <button type="submit" className={'button button-primary'}>{_x('Transmit to Nostr', 'form component button label', 'postr-for-nostr')}</button>
                 </div>
             </fieldset>
         </form>
@@ -434,7 +434,7 @@ const NostrPostr = (props) => {
                 set_postring_error([
                     ...postring_error,
                     {
-                        title: _x('Event could not be signed', 'postring component error', 'nostr-postr'),
+                        title: _x('Event could not be signed', 'postring component error', 'postr-for-nostr'),
                         message: error.message
                     }
                 ]);
@@ -443,21 +443,21 @@ const NostrPostr = (props) => {
 
         console.log(subs);
 
-        return <div className={"nostr-postr-app__postring"}>
-            {!postring_error.length && <div className="nostr-postr-app__postring-status">
-                <div><strong>{_x('Event ID', 'postring component title', 'nostr-postr')}</strong><br />{event ? event.id : <div class="nostr-postr-app__spinner"><div></div><div></div><div></div><div></div></div>}</div>
+        return <div className={"postr-for-nostr-app__postring"}>
+            {!postring_error.length && <div className="postr-for-nostr-app__postring-status">
+                <div><strong>{_x('Event ID', 'postring component title', 'postr-for-nostr')}</strong><br />{event ? event.id : <div class="postr-for-nostr-app__spinner"><div></div><div></div><div></div><div></div></div>}</div>
                 <ul>
                     {Object.keys(relays).map((relay) => {
                         return <li>
-                            {'undefined' === typeof subs[relay].success ? <div class="nostr-postr-app__spinner"><div></div><div></div><div></div><div></div></div> : subs[relay].success ? <div>✅</div> : <div>❌</div>}
+                            {'undefined' === typeof subs[relay].success ? <div class="postr-for-nostr-app__spinner"><div></div><div></div><div></div><div></div></div> : subs[relay].success ? <div>✅</div> : <div>❌</div>}
                             <strong>{relay}</strong>
                         </li>
                     })}
                 </ul>
             </div>}
-            {!!postring_error.length && <div className="nostr-postr-app__postring-errors">
+            {!!postring_error.length && <div className="postr-for-nostr-app__postring-errors">
                 <span>&#128683;</span>
-                <h3>{_x('Failed to postr for the following reasons:', 'postring component error', 'nostr-postr')}</h3>
+                <h3>{_x('Failed to postr for the following reasons:', 'postring component error', 'postr-for-nostr')}</h3>
                 <ul>
                     {postring_error.map((error) => {
                         return <li><strong>{error.title}</strong><br />{error.message}</li>
@@ -465,7 +465,7 @@ const NostrPostr = (props) => {
                 </ul>
                 <button type="button" onClick={() => {
                     window.location.reload();
-                }}>{_x('Reload and try again', 'postring component button label', 'nostr-postr')}</button>
+                }}>{_x('Reload and try again', 'postring component button label', 'postr-for-nostr')}</button>
             </div>}
         </div>
     }

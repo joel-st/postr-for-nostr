@@ -1,4 +1,4 @@
-.nostr-postr-app {
+.postr-for-nostr-app {
     background-color: #9744c1;
     padding: 0;
     box-sizing: border-box;
@@ -72,7 +72,7 @@
                 grid-template-columns: 1fr;
                 grid-gap: .5em;
 
-                &.nostr-postr-app__postr-actions label {
+                &.postr-for-nostr-app__postr-actions label {
                     display: none;
                 }
             }
@@ -165,7 +165,7 @@
     }
 
     &__postr-relays {
-        .nostr-postr-app__postr-relays-toggle {
+        .postr-for-nostr-app__postr-relays-toggle {
             cursor: pointer;
             font-size: .9em;
             width: 100%;
@@ -179,24 +179,24 @@
             color: #a7aaad;
         }
 
-        .nostr-postr-app__postr-relays-toggle-horizontal {
+        .postr-for-nostr-app__postr-relays-toggle-horizontal {
             display: flex;
             flex-grow: 1;
             align-items: center;
             gap: .75em;
         }
 
-        .nostr-postr-app__postr-relays-toggle-line {
+        .postr-for-nostr-app__postr-relays-toggle-line {
             flex-grow: 1;
             height: 1px;
             background-color: #d6d6d6;
         }
 
-        .nostr-postr-app__postr-relays-toggle-horizontal .dashicons {
+        .postr-for-nostr-app__postr-relays-toggle-horizontal .dashicons {
             color: #d6d6d6;
         }
 
-        .nostr-postr-app__postr-relay-label {
+        .postr-for-nostr-app__postr-relay-label {
             flex-basis: calc(100% - 1em);
             white-space: nowrap;
             overflow: hidden;
@@ -221,16 +221,16 @@
             }
         }
 
-        ul li.nostr-postr-app__postr-relay-add {
+        ul li.postr-for-nostr-app__postr-relay-add {
             color: #a7aaad;
             background-color: #ffffff;
         }
 
-        ul li.nostr-postr-app__postr-relay-add input {
+        ul li.postr-for-nostr-app__postr-relay-add input {
             border: none;
         }
 
-        ul li.nostr-postr-app__postr-relay-add .nostr-postr-app__postr-relay-label:focus {
+        ul li.postr-for-nostr-app__postr-relay-add .postr-for-nostr-app__postr-relay-label:focus {
             color: #222222;
         }
 
@@ -280,13 +280,13 @@
             }
         }
 
-        .nostr-postr-app__postr-tag-notice {
+        .postr-for-nostr-app__postr-tag-notice {
             color: #a7aaad;
             margin: .5em 0 .75em;
             font-size: .9em;
         }
 
-        .nostr-postr-app__postr-tags-toggle {
+        .postr-for-nostr-app__postr-tags-toggle {
             cursor: pointer;
             font-size: .9em;
             width: 100%;
@@ -300,30 +300,30 @@
             color: #a7aaad;
         }
 
-        .nostr-postr-app__postr-tags-toggle-horizontal {
+        .postr-for-nostr-app__postr-tags-toggle-horizontal {
             display: flex;
             flex-grow: 1;
             align-items: center;
             gap: .75em;
         }
 
-        .nostr-postr-app__postr-tags-toggle-line {
+        .postr-for-nostr-app__postr-tags-toggle-line {
             flex-grow: 1;
             height: 1px;
             background-color: #d6d6d6;
         }
 
-        .nostr-postr-app__postr-tags-toggle-horizontal .dashicons {
+        .postr-for-nostr-app__postr-tags-toggle-horizontal .dashicons {
             color: #d6d6d6;
         }
 
-        .nostr-postr-app__postr-tag-types {
+        .postr-for-nostr-app__postr-tag-types {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             grid-gap: .75em;
         }
 
-        .nostr-postr-app__postr-tags-custom ul li {
+        .postr-for-nostr-app__postr-tags-custom ul li {
             display: flex;
             align-items: center;
             padding: 0.25em .25em .25em 0.5em;
@@ -336,33 +336,33 @@
             }
         }
 
-        .nostr-postr-app__postr-tags-custom ul li.nostr-postr-app__postr-tag-add {
+        .postr-for-nostr-app__postr-tags-custom ul li.postr-for-nostr-app__postr-tag-add {
             color: #a7aaad;
             background-color: #ffffff;
         }
 
-        .nostr-postr-app__postr-tags-custom ul li.nostr-postr-app__postr-tag-add input {
+        .postr-for-nostr-app__postr-tags-custom ul li.postr-for-nostr-app__postr-tag-add input {
             border: none;
         }
 
-        .nostr-postr-app__postr-tags-custom ul li.nostr-postr-app__postr-tag-add .nostr-postr-app__relay-label:focus {
+        .postr-for-nostr-app__postr-tags-custom ul li.postr-for-nostr-app__postr-tag-add .postr-for-nostr-app__relay-label:focus {
             color: #222222;
         }
 
-        .nostr-postr-app__postr-tag-label {
+        .postr-for-nostr-app__postr-tag-label {
             flex-basis: calc(100% - 1em);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .nostr-postr-app__postr-tags-custom ul li button {
+        .postr-for-nostr-app__postr-tags-custom ul li button {
             border: none;
             background-color: transparent;
             cursor: pointer;
         }
 
-        .nostr-postr-app__postr-tags-custom ul li button .dashicons {
+        .postr-for-nostr-app__postr-tags-custom ul li button .dashicons {
             color: #a7aaad;
             display: flex;
             align-items: center;
@@ -370,11 +370,11 @@
             font-size: 1em;
         }
 
-        .nostr-postr-app__postr-tags-custom ul li button .dashicons.dashicons-remove {
+        .postr-for-nostr-app__postr-tags-custom ul li button .dashicons.dashicons-remove {
             color: #b32d2e;
         }
 
-        .nostr-postr-app__postr-tags-custom ul li button .dashicons.dashicons-insert {
+        .postr-for-nostr-app__postr-tags-custom ul li button .dashicons.dashicons-insert {
             color: #46B450;
         }
     }
@@ -506,7 +506,7 @@
         width: 100%;
         margin-bottom: 2rem;
 
-        .nostr-postr-app__spinner div {
+        .postr-for-nostr-app__spinner div {
             border: 0.125em solid #fff;
             border-color: #fff transparent transparent transparent;
         }

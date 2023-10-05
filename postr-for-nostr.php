@@ -1,13 +1,13 @@
 <?php
 /*
-* Plugin Name: Nostr Postr
-* Plugin URI: https://wordpress.org/plugins/nostr-postr/
-* Description: Share your WordPress posts to Nostr with Nostr Postr 🫂
+* Plugin Name: Wordpress Postr For Nostr
+* Plugin URI: https://wordpress.org/plugins/postr-for-nostr/
+* Description: Share your WordPress posts to Nostr with Wordpress Postr For Nostr 🫂
 * Version: 1.0.0
 * Author: joelmelon
-* Author URI: https://nostr-postr.joelstuedle.ch
+* Author URI: https://postr-for-nostr.joelstuedle.ch
 * Requires PHP: 7.4
-* Text Domain: nostr-postr
+* Text Domain: postr-for-nostr
 * Domain Path: /languages
 */
 

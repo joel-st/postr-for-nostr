@@ -1,1 +1,0 @@
-[...document.querySelectorAll(".nostr-postr")].map((t=>{t.addEventListener("click",(function(){const o=t.getAttribute("data-post-id"),e=t.getAttribute("data-post-type");return window.open(window.location.origin+"?action=nostr-postr&post_id="+o+"&post_type="+e,"targetWindow","toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=700"),!1}))}));

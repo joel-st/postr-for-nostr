@@ -1,7 +1,7 @@
 {
-    "name": "nostr-postr",
+    "name": "postr-for-nostr",
     "version": "1.0.0",
-    "description": "=== LNURL Auth For WordPress ===",
+    "description": "=== Wordpress Postr For Nostr ===",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
