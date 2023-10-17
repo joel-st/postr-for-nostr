@@ -96,7 +96,7 @@ class Plugin {
 		add_action( 'init', array( $this, 'set_post_types' ), 9001 );
 
 		// the action to detect if current call is for postr-for-nostr, set priority bigger than set_post_types
-		add_action( 'init', array( $this, 'nostr_postr_initialize' ), 9002 );
+		add_action( 'init', array( $this, 'postr_for_nostr_initialize' ), 9002 );
 
 		// add a button to trigger postr-for-nostr to WordPress post columns
 		add_filter( 'post_row_actions', array( $this, 'filter_row_actions' ), 10, 2 );
@@ -116,19 +116,19 @@ class Plugin {
 			$class_short = end( $class_parts );
 			$class_set   = $class_parts[ count( $class_parts ) - 2 ];
 
-			if ( ! isset( nostr_postr()->{$class_set} ) || ! is_object( nostr_postr()->{$class_set} ) ) {
-				nostr_postr()->{$class_set} = new \stdClass();
+			if ( ! isset( postr_for_nostr()->{$class_set} ) || ! is_object( postr_for_nostr()->{$class_set} ) ) {
+				postr_for_nostr()->{$class_set} = new \stdClass();
 			}
 
-			if ( property_exists( nostr_postr()->{$class_set}, $class_short ) ) {
+			if ( property_exists( postr_for_nostr()->{$class_set}, $class_short ) ) {
 				/* translators: %1$s = already used class name, %2$s = plugin class */
 				wp_die( sprintf( esc_html( _x( 'There was a problem with the Plugin. Only one class with name “%1$s” can be use used in “%2$s”.', 'Theme instance load_classes() error message', 'postr-for-nostr' ) ), $class_short, $class_set ), 500 );
 			}
 
-			nostr_postr()->{$class_set}->{$class_short} = new $class();
+			postr_for_nostr()->{$class_set}->{$class_short} = new $class();
 
-			if ( method_exists( nostr_postr()->{$class_set}->{$class_short}, 'run' ) ) {
-				nostr_postr()->{$class_set}->{$class_short}->run();
+			if ( method_exists( postr_for_nostr()->{$class_set}->{$class_short}, 'run' ) ) {
+				postr_for_nostr()->{$class_set}->{$class_short}->run();
 			}
 		}
 	}
@@ -139,14 +139,14 @@ class Plugin {
 	 * @since 1.0.0
 	 */
 	public function load_text_domain() {
-		load_plugin_textdomain( nostr_postr()->text_domain, false, nostr_postr()->domain_path );
+		load_plugin_textdomain( postr_for_nostr()->text_domain, false, postr_for_nostr()->domain_path );
 	}
 
 	/**
 	 * Set post types on which postr-for-nostr should be available
 	 * Per default, 'post', 'page' and all registered custom post types will be included
 	 * The post type list is filterable with a filter hook:
-	 * add_filter( 'nostr_postr_post_types', function( $post_types ) { unset('post_type'); return $post_types; }, 10, 1 );
+	 * add_filter( 'postr_for_nostr_post_types', function( $post_types ) { unset('post_type'); return $post_types; }, 10, 1 );
 	 *
 	 * @since 1.0.0
 	 */
@@ -171,7 +171,7 @@ class Plugin {
 			);
 		}
 
-		$this->post_types = apply_filters( 'nostr_postr_post_types', $this->post_types );
+		$this->post_types = apply_filters( 'postr_for_nostr_post_types', $this->post_types );
 	}
 
 	/**
@@ -180,16 +180,16 @@ class Plugin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function nostr_postr_initialize() {
+	public function postr_for_nostr_initialize() {
 		if ( isset( $_GET ) && isset( $_GET['action'] ) && 'postr-for-nostr' === $_GET['action'] ) {
-			echo '<title>' . _x( 'Postr for Nostr', 'Postr for Nostr window meta title', 'postr-for-nostr' ) . '</title>';
+			echo '<title>' . esc_html( _x( 'Postr for Nostr', 'Postr for Nostr window meta title', 'postr-for-nostr' ) ) . '</title>';
 			echo '<meta name="viewport" content="width=device-width, initial-scale=1" />';
 			// enqueue postr-for-nostr assets and styles
-			nostr_postr()->Plugin->Assets->enqueue_scripts_styles();
+			postr_for_nostr()->Plugin->Assets->enqueue_scripts_styles();
 			do_action( 'wp_head' );
 			echo '<body class="postr-for-nostr-app postr-for-nostr-app--initializing">';
 			echo '<div class="postr-for-nostr-app__head">';
-			echo '<img src="' . nostr_postr()->plugin_url . '/assets/media/postr-for-nostr-app-head.png' . '" alt="Postr for Nostr Brand"/>';
+			echo '<img src="' . esc_url( postr_for_nostr()->plugin_url ) . '/assets/media/postr-for-nostr-app-head.png' . '" alt="Postr for Nostr Brand"/>';
 			echo '</div>';
 			echo '<div class="postr-for-nostr-app__content" id="postr-for-nostr-app">';
 			echo '</div>';
@@ -206,8 +206,8 @@ class Plugin {
 	 * @since 1.0.0
 	 */
 	public function filter_row_actions( $actions, $post ) {
-		if ( isset( nostr_postr()->post_types[ $post->post_type ] ) && 'publish' === $post->post_status ) {
-			$actions['nostr_postr'] = '<button type="button" class="button-link postr-for-nostr" data-post-id="' . $post->ID . '" data-post-type="' . $post->post_type . '" aria-label="' . esc_html( _x( 'Post to Nostr', 'Post Column Action', 'postr-for-nostr' ) ) . '" aria-expanded="false">' . esc_html( _x( 'Post to Nostr', 'Post Column Action', 'postr-for-nostr' ) ) . '</button>';
+		if ( isset( postr_for_nostr()->post_types[ $post->post_type ] ) && 'publish' === $post->post_status ) {
+			$actions['postr_for_nostr'] = '<button type="button" class="button-link postr-for-nostr" data-post-id="' . esc_attr( $post->ID ) . '" data-post-type="' . esc_attr( $post->post_type ) . '" aria-label="' . esc_html( _x( 'Post to Nostr', 'Post Column Action', 'postr-for-nostr' ) ) . '" aria-expanded="false">' . esc_html( _x( 'Post to Nostr', 'Post Column Action', 'postr-for-nostr' ) ) . '</button>';
 		}
 		return $actions;
 	}

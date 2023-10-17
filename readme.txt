@@ -1,4 +1,4 @@
-=== Wordpress Postr For Nostr ===
+=== Postr For Nostr ===
 
 Contributors: joelmelon
 Donate link: https://postr-for-nostr.joelstuedle.ch/
@@ -9,7 +9,7 @@ Stable tag: 1.0.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Share your WordPress Posts to Nostr with Wordpress Postr For Nostr 🫂
+Share your WordPress Posts to Nostr with Postr For Nostr 🫂
 
 == Features ==
 
@@ -19,7 +19,7 @@ Share your WordPress Posts to Nostr with Wordpress Postr For Nostr 🫂
 
 == Demo ==
 
-A demo WordPress installation with Wordpress Postr For Nostr is available [here](https://postr-for-nostr.joelstuedle.ch/).
+A demo WordPress installation with Postr For Nostr is available [here](https://postr-for-nostr.joelstuedle.ch/).
 
 == Installation ==
 
@@ -30,7 +30,7 @@ A demo WordPress installation with Wordpress Postr For Nostr is available [here]
 
 Logged in users will find a `Post to Nostr` button in the admin column actions (where the `Quick Edit` action is located).
 
-If you want to provide Wordpress Postr For Nostr to your visitors, simply place a button somewhere in your template. Make sure to add the `postr-for-nostr` class, `data-post-id` and `data-post-type` attribute as shown below.
+If you want to provide Postr For Nostr to your visitors, simply place a button somewhere in your template. Make sure to add the `postr-for-nostr` class, `data-post-id` and `data-post-type` attribute as shown below.
 ```
 <button type="button" class="postr-for-nostr" data-post-id="[ID]" data-post-type="[POST_TYPE]">Share</button>
 ```
@@ -41,7 +41,7 @@ If you want to provide Wordpress Postr For Nostr to your visitors, simply place 
 
 Per default `post`, `page` and all registered custom post types will be allowed to be nostr postred. The allowed post types are filterable with a filter hook:
 ```
-add_filter( 'nostr_postr_post_types', function( $post_types ) { 
+add_filter( 'postr_for_nostr_post_types', function( $post_types ) { 
     // unset('post_type'); 
     return $post_types; 
 }, 10, 1 );
@@ -53,7 +53,7 @@ add_filter( 'nostr_postr_post_types', function( $post_types ) {
 
 == Screenshots ==
 
-1. A preview of postring to Nostr with Wordpress Postr For Nostr.
+1. A preview of postring to Nostr with Postr For Nostr.
 2. The Post to Nostr button in the WordPress admin column actions.
 
 == Changelog ==

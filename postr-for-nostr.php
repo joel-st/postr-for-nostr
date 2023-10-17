@@ -1,8 +1,8 @@
 <?php
 /*
-* Plugin Name: Wordpress Postr For Nostr
+* Plugin Name: Postr For Nostr
 * Plugin URI: https://wordpress.org/plugins/postr-for-nostr/
-* Description: Share your WordPress posts to Nostr with Wordpress Postr For Nostr 🫂
+* Description: Share your WordPress posts to Nostr with Postr For Nostr 🫂
 * Version: 1.0.0
 * Author: joelmelon
 * Author URI: https://postr-for-nostr.joelstuedle.ch
@@ -74,9 +74,9 @@ require_once 'classes/Plugin.php';
  * @since    1.0.0
  */
 
-function nostr_postr()
+function postr_for_nostr()
 {
     return JoelMelon\Plugins\NostrPostr\Plugin::get_instance(__FILE__);
 }
 
-nostr_postr();
+postr_for_nostr();

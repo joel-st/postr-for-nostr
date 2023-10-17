@@ -1,7 +1,7 @@
 {
     "name": "postr-for-nostr",
     "version": "1.0.0",
-    "description": "=== Wordpress Postr For Nostr ===",
+    "description": "=== Postr For Nostr ===",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",

@@ -5,7 +5,8 @@ const { __, _x, _n, _nx } = wp.i18n;
 const { render, useEffect, useState, Fragment, useRef } = wp.element;
 
 // import nostr-tools
-import * as nostr_tools from 'nostr-tools';
+import { nip19, SimplePool, getEventHash, relayInit } from 'nostr-tools'
+const nostr_tools = { nip19, SimplePool, getEventHash, relayInit };
 
 // initialize and render postr-for-nostr component
 export function init(element) {
@@ -39,9 +40,9 @@ const NostrPostr = (props) => {
     useEffect(() => {
         if (nip07 && nip07.status) {
             setTimeout(() => {
-                if (nostr_postr_localize.data.post_data) {
-                    if (nostr_postr_localize.data.post_type in nostr_postr_localize.data.post_types) {
-                        set_post_data({ status: true, data: nostr_postr_localize.data.post_data });
+                if (postr_for_nostr_localize.data.post_data) {
+                    if (postr_for_nostr_localize.data.post_type in postr_for_nostr_localize.data.post_types) {
+                        set_post_data({ status: true, data: postr_for_nostr_localize.data.post_data });
                     } else {
                         set_post_data({ status: false, data: _x('Posts from this post type cannot be postred.', 'component error', 'postr-for-nostr') });
                     }
@@ -90,7 +91,7 @@ const NostrPostr = (props) => {
     // if relays is updated, check if we need to fetch postr profile (event kind 0)
     const [postr_profile, set_postr_profile] = useState({
         name: _x('Anonymous Postr', 'postr profile component name', 'postr-for-nostr'),
-        picture: nostr_postr_localize.data.profile_placeholder,
+        picture: postr_for_nostr_localize.data.profile_placeholder,
         npub: 'xxxxxxxxxxxxxxxxx',
         fetch: true
     });

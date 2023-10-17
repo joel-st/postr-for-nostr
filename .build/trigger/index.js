@@ -1,8 +1,8 @@
 // query postr for nostr trigger elements
-const nostr_postr_trigger_elements = document.querySelectorAll('.postr-for-nostr');
+const postr_for_nostr_trigger_elements = document.querySelectorAll('.postr-for-nostr');
 
 // initialize trigger elements
-[...nostr_postr_trigger_elements].map((element) => {
+[...postr_for_nostr_trigger_elements].map((element) => {
     element.addEventListener('click', function () {
         const id = element.getAttribute('data-post-id');
         const type = element.getAttribute('data-post-type');
