@@ -41,7 +41,7 @@ class Assets {
 		if ( file_exists( esc_url( postr_for_nostr()->plugin_dir ) . '/assets/scripts/postr-for-nostr.js' ) ) {
 			$js = file_get_contents( esc_url( postr_for_nostr()->plugin_dir ) . '/assets/scripts/postr-for-nostr.js' );
 
-			wp_register_script( 'postr-for-nostr-js', esc_url(postr_for_nostr()->plugin_url) . '/assets/scripts/postr-for-nostr.js', array( 'wp-element' ), md5( $js ), true );
+			wp_register_script( 'postr-for-nostr-js', esc_url( postr_for_nostr()->plugin_url ) . '/assets/scripts/postr-for-nostr.js', array( 'wp-element' ), md5( $js ), true );
 			wp_enqueue_script( 'postr-for-nostr-js' );
 
 			$localize_script_data = $this->localize_script_data();
@@ -54,7 +54,7 @@ class Assets {
 		if ( file_exists( esc_url( postr_for_nostr()->plugin_dir ) . '/assets/styles/postr-for-nostr.css' ) ) {
 			$css = file_get_contents( esc_url( postr_for_nostr()->plugin_dir ) . '/assets/styles/postr-for-nostr.css' );
 
-			wp_register_style( 'postr-for-nostr-css', esc_url(postr_for_nostr()->plugin_url) . '/assets/styles/postr-for-nostr.css', array( 'dashicons' ), md5( $css ) );
+			wp_register_style( 'postr-for-nostr-css', esc_url( postr_for_nostr()->plugin_url ) . '/assets/styles/postr-for-nostr.css', array( 'dashicons' ), md5( $css ) );
 			wp_enqueue_style( 'postr-for-nostr-css' );
 		}
 	}
@@ -107,7 +107,7 @@ class Assets {
 			'post_id'             => $post_id,
 			'post_type'           => $post_type,
 			'post_data'           => $post_data,
-			'profile_placeholder' => esc_url(postr_for_nostr()->plugin_url) . '/assets/media/postr-for-nostr-profile-placeholder.jpg',
+			'profile_placeholder' => esc_url( postr_for_nostr()->plugin_url ) . '/assets/media/postr-for-nostr-profile-placeholder.jpg',
 		);
 	}
 
@@ -122,7 +122,7 @@ class Assets {
 		if ( file_exists( esc_url( postr_for_nostr()->plugin_dir ) . '/assets/scripts/postr-for-nostr-trigger.js' ) ) {
 			$js = file_get_contents( esc_url( postr_for_nostr()->plugin_dir ) . '/assets/scripts/postr-for-nostr-trigger.js' );
 
-			wp_register_script( 'postr-for-nostr-trigger-js', esc_url(postr_for_nostr()->plugin_url) . '/assets/scripts/postr-for-nostr-trigger.js', array(), md5( $js ), true );
+			wp_register_script( 'postr-for-nostr-trigger-js', esc_url( postr_for_nostr()->plugin_url ) . '/assets/scripts/postr-for-nostr-trigger.js', array(), md5( $js ), true );
 			wp_enqueue_script( 'postr-for-nostr-trigger-js' );
 		}
 	}
