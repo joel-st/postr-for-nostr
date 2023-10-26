@@ -4,7 +4,7 @@ Contributors: joelmelon
 Donate link: https://postr-for-nostr.joelstuedle.ch/
 Tags: Nostr, Social, Sharing, NIP-07
 Requires PHP: 7.4
-Tested up to: 6.2.2
+Tested up to: 6.3.2
 Stable tag: 1.0.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
