@@ -51,7 +51,7 @@ class Plugin {
 				include_once ABSPATH . 'wp-admin/includes/plugin.php';
 			}
 
-			self::$instance->plugin_header = get_plugin_data( $file );
+			self::$instance->plugin_header = get_plugin_data( $file, false, /* $translate */ false );
 			self::$instance->name          = self::$instance->plugin_header['Name'];
 			self::$instance->domain_path   = basename( dirname( __DIR__ ) ) . self::$instance->plugin_header['DomainPath'];
 			self::$instance->prefix        = 'postr-for-nostr';
@@ -90,7 +90,7 @@ class Plugin {
 		);
 
 		// load the textdomain
-		add_action( 'plugins_loaded', array( $this, 'load_text_domain' ) );
+		add_action( 'init', array( $this, 'load_text_domain' ) );
 
 		// set post types with low priority (over 9000!) to hopefully catch all registerd post types
 		add_action( 'init', array( $this, 'set_post_types' ), 9001 );

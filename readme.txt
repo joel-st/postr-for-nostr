@@ -4,8 +4,8 @@ Contributors: joelmelon
 Donate link: https://postr-for-nostr.joelstuedle.ch/
 Tags: Nostr, Social, Sharing, NIP-07
 Requires PHP: 7.4
-Tested up to: 6.3.2
-Stable tag: 1.0.0
+Tested up to: 6.7.1
+Stable tag: 1.0.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -41,9 +41,9 @@ If you want to provide Postr For Nostr to your visitors, simply place a button s
 
 Per default `post`, `page` and all registered custom post types will be allowed to be nostr postred. The allowed post types are filterable with a filter hook:
 ```
-add_filter( 'postr_for_nostr_post_types', function( $post_types ) { 
-    // unset('post_type'); 
-    return $post_types; 
+add_filter( 'postr_for_nostr_post_types', function( $post_types ) {
+    // unset('post_type');
+    return $post_types;
 }, 10, 1 );
 ```
 
@@ -57,6 +57,9 @@ add_filter( 'postr_for_nostr_post_types', function( $post_types ) {
 2. The Post to Nostr button in the WordPress admin column actions.
 
 == Changelog ==
+
+= 1.0.1 =
+* Compatibility ckeck. Adapt internationalization improvements in 6.7 – load textdomain on `init` and fix `get_plugin_data`.
 
 = 1.0.0 =
 * Initial version.
