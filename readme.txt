@@ -4,8 +4,8 @@ Contributors: joelmelon
 Donate link: https://postr-for-nostr.joelstuedle.ch/
 Tags: Nostr, Social, Sharing, NIP-07
 Requires PHP: 7.4
-Tested up to: 6.7.1
-Stable tag: 1.0.1
+Tested up to: 6.7.2
+Stable tag: 1.0.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -58,8 +58,11 @@ add_filter( 'postr_for_nostr_post_types', function( $post_types ) {
 
 == Changelog ==
 
+= 1.0.2 =
+* Fix issue: Postr for Nostr window URL is wrong when WordPress is installed in subdirectory.
+
 = 1.0.1 =
-* Compatibility ckeck. Adapt internationalization improvements in 6.7 – load textdomain on `init` and fix `get_plugin_data`.
+* Compatibility check. Adapt internationalization improvements in 6.7 – load textdomain on `init` and fix `get_plugin_data`.
 
 = 1.0.0 =
 * Initial version.

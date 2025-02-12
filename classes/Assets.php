@@ -124,6 +124,7 @@ class Assets {
 
 			wp_register_script( 'postr-for-nostr-trigger-js', esc_url( postr_for_nostr()->plugin_url ) . '/assets/scripts/postr-for-nostr-trigger.js', array(), md5( $js ), true );
 			wp_enqueue_script( 'postr-for-nostr-trigger-js' );
+			wp_localize_script( 'postr-for-nostr-trigger-js', 'postr_for_nostr_trigger_localize', array( 'site_url' => get_site_url() . (preg_match('#/$#', get_site_url()) ? '' : '/') ) );
 		}
 	}
 }
