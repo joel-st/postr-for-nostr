@@ -3,7 +3,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = (env, argv) => {
     const production = (argv.mode && argv.mode === 'production') ? true : false;
-    console.log('\033[0mMODE \033[0;32m' + argv.mode + '\n');
+    console.log('\x1b[0mMODE \x1b[0;32m' + argv.mode + '\n');
 
     return {
         // mode specified in package.json scripts
@@ -44,9 +44,7 @@ module.exports = (env, argv) => {
                 use: [
                     MiniCssExtractPlugin.loader,
                     "css-loader",
-                    {
-                        loader: "sass-loader",
-                    },
+                    "sass-loader", // Correct usage
                 ],
             }]
         },

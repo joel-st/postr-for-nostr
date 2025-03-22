@@ -3,7 +3,7 @@
 * Plugin Name: Postr For Nostr
 * Plugin URI: https://wordpress.org/plugins/postr-for-nostr/
 * Description: Share your WordPress posts to Nostr with Postr For Nostr 🫂
-* Version: 1.0.2
+* Version: 1.1.0
 * Author: joelmelon
 * Author URI: https://postr-for-nostr.joelstuedle.ch
 * Requires PHP: 7.4

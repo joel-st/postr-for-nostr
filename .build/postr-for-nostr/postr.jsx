@@ -83,6 +83,7 @@ const NostrPostr = (props) => {
         if (public_key_hex.status) {
             set_postr_profile({ ...postr_profile, npub: nostr_tools.nip19.npubEncode(public_key_hex.data), pubkey: public_key_hex.data, fetch: true });
             window.nostr.getRelays().then((response) => {
+                console.log('relays', response, public_key_hex);
                 if (typeof response === 'object') set_relays(response);
             })
         }
@@ -95,6 +96,7 @@ const NostrPostr = (props) => {
         npub: 'xxxxxxxxxxxxxxxxx',
         fetch: true
     });
+
     useEffect(() => {
         if (
             (typeof relays === 'object' && Object.keys(relays).length)
