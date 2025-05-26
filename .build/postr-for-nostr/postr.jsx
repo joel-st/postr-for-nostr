@@ -5,8 +5,14 @@ const { __, _x, _n, _nx } = wp.i18n;
 const { render, useEffect, useState, Fragment, useRef } = wp.element;
 
 // import nostr-tools
-import { nip19, SimplePool, getEventHash, relayInit } from 'nostr-tools'
-const nostr_tools = { nip19, SimplePool, getEventHash, relayInit };
+import { nip19, SimplePool, getEventHash } from 'nostr-tools'
+const nostr_tools = { nip19, SimplePool, getEventHash };
+
+const DEFAULT_RELAYS = [
+    'wss://relay.damus.io',
+    'wss://nos.lol',
+    'wss://relay.nostr.band/'
+]
 
 // initialize and render postr-for-nostr component
 export function init(element) {
@@ -77,19 +83,8 @@ const NostrPostr = (props) => {
         }
     }, [post_data]);
 
-    // if public key is available, fetch relays from nip-07 
-    const [relays, set_relays] = useState({});
-    useEffect(() => {
-        if (public_key_hex.status) {
-            set_postr_profile({ ...postr_profile, npub: nostr_tools.nip19.npubEncode(public_key_hex.data), pubkey: public_key_hex.data, fetch: true });
-            window.nostr.getRelays().then((response) => {
-                console.log('relays', response, public_key_hex);
-                if (typeof response === 'object') set_relays(response);
-            })
-        }
-    }, [public_key_hex]);
-
-    // if relays is updated, check if we need to fetch postr profile (event kind 0)
+    // if public key is available, fetch relay list (kind 10002) and profile information (kind 0)
+    const [relays, set_relays] = useState(DEFAULT_RELAYS);
     const [postr_profile, set_postr_profile] = useState({
         name: _x('Anonymous Postr', 'postr profile component name', 'postr-for-nostr'),
         picture: postr_for_nostr_localize.data.profile_placeholder,
@@ -98,32 +93,89 @@ const NostrPostr = (props) => {
     });
 
     useEffect(() => {
-        if (
-            (typeof relays === 'object' && Object.keys(relays).length)
-            && postr_profile.fetch
-        ) {
+        if (public_key_hex.status) {
+            set_postr_profile({ ...postr_profile, npub: nostr_tools.nip19.npubEncode(public_key_hex.data), pubkey: public_key_hex.data, fetch: true });
+            // start fetching relays for kind 0 and 10002
             const pool = new nostr_tools.SimplePool();
-            let sub = pool.sub(
-                Object.keys(relays),
-                [{ authors: [public_key_hex.data], kinds: [0] }]
-            );
-            sub.on('event', event => {
-                const content = JSON.parse(event.content);
-                if (postr_profile.fetch || event.pubkey !== postr_profile.pubkey) {
-                    let postr_profile_update = { ...postr_profile };
-                    postr_profile_update.pubkey = public_key_hex.data;
-                    postr_profile_update.npub = nostr_tools.nip19.npubEncode(public_key_hex.data);
-                    postr_profile_update.fetch = false;
-                    if (content.picture && content.picture.length) postr_profile_update.picture = content.picture;
-                    if (content.username && content.username.length) postr_profile_update.name = content.username;
-                    if (content.displayName && content.displayName.length) postr_profile_update.name = content.displayName;
-                    if (content.display_name && content.display_name.length) postr_profile_update.name = content.display_name;
-                    set_postr_profile(postr_profile_update);
+            const subs = {};
+
+            // Connect to relays using the latest nostr-tools implementation
+            const getProfileAndRelays = async (relayUrls) => {
+                try {
+                    // Create a new SimplePool instance
+                    const pool = new nostr_tools.SimplePool();
+                    
+                    // Subscribe to user metadata (kind 0) and relay list (kind 10002)
+                    const subscription = pool.subscribeMany(
+                        relayUrls,
+                        [{ authors: [public_key_hex.data], kinds: [0, 10002] }],
+                        {
+                            onevent(event) {
+                                
+                                // Handle profile metadata (kind 0)
+                                if (event.kind === 0) {
+                                    // console.log('Received profile event (kind 0):', event);
+
+                                    try {
+                                        const content = JSON.parse(event.content);
+                                        let postr_profile_update = { ...postr_profile };
+                                        postr_profile_update.pubkey = public_key_hex.data;
+                                        postr_profile_update.npub = nostr_tools.nip19.npubEncode(public_key_hex.data);
+                                        postr_profile_update.fetch = false;
+                                        
+                                        if (content.picture && content.picture.length) postr_profile_update.picture = content.picture;
+                                        if (content.username && content.username.length) postr_profile_update.name = content.username;
+                                        if (content.displayName && content.displayName.length) postr_profile_update.name = content.displayName;
+                                        if (content.display_name && content.display_name.length) postr_profile_update.name = content.display_name;
+                                        
+                                        set_postr_profile(postr_profile_update);
+                                    } catch (e) {
+                                        console.error('Error parsing profile metadata:', e);
+                                    }
+                                }
+                                
+                                // Handle relay list (kind 10002)
+                                if (event.kind === 10002) {
+                                    // console.log('Received relay list event (kind 10002):', event);
+                                    try {
+                                        const relayList = {};
+                                        event.tags.forEach(tag => {
+                                            if (tag[0] === 'r' && tag[1] && tag[1] !== '') {
+                                                relayList[tag[1]] = { read: true, write: true };
+                                                if (tag[2] && !tag[3] && tag[2] === 'read') { // only read
+                                                    relayList[tag[1]].write = false;
+                                                }
+                                                if (tag[2] && !tag[3] && tag[2] === 'write') { // only write
+                                                    relayList[tag[1]].read = false;
+                                                }
+                                            }
+                                        });
+                                        if (Object.keys(relayList).length > 0) {
+                                            set_relays(relayList);
+                                        }
+                                    } catch (e) {
+                                        console.error('Error parsing relay list:', e);
+                                    }
+                                }
+                            },
+                            oneose() {
+                                console.log('EOSE: Completed initial relay sync');
+                            }
+                        }
+                    );
+                    
+                    return subscription;
+                } catch (error) {
+                    console.error('Error connecting to relays:', error);
+                    return null;
                 }
-            });
-            sub.on('eose', () => { sub.unsub(); });
+            };
+
+            getProfileAndRelays(relays);
         }
-    }, [relays]);
+    }, [public_key_hex]);
+
+    //console.log('tt', postr_profile, relays);
 
     // after initializing prepare postr data
     const [postr_note, set_postr_note] = useState('');
@@ -404,6 +456,8 @@ const NostrPostr = (props) => {
                 event.tags.push(['t', postr_tags.list[property]]);
             }
             event.id = nostr_tools.getEventHash(event);
+
+            // console.log('event ready to send', event);
             window.nostr.signEvent(event).then((event) => {
                 let subs_update = {};
                 Object.keys(relays).map(async (relay) => {
@@ -444,7 +498,7 @@ const NostrPostr = (props) => {
             })
         }, []);
 
-        console.log(subs);
+        // console.log(subs);
 
         return <div className={"postr-for-nostr-app__postring"}>
             {!postring_error.length && <div className="postr-for-nostr-app__postring-status">

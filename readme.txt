@@ -4,8 +4,8 @@ Contributors: joelmelon
 Donate link: https://postr-for-nostr.joelstuedle.ch/
 Tags: Nostr, Social, Sharing, NIP-07
 Requires PHP: 7.4
-Tested up to: 6.7.2
-Stable tag: 1.1.0
+Tested up to: 6.8.1
+Stable tag: 1.0.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -57,6 +57,9 @@ add_filter( 'postr_for_nostr_post_types', function( $post_types ) {
 2. The Post to Nostr button in the WordPress admin column actions.
 
 == Changelog ==
+
+= 1.0.3 =
+* Build update. Fetch user relay list (kind 10002) to postr to nostr.
 
 = 1.0.2 =
 * Fix issue: Postr for Nostr window URL is wrong when WordPress is installed in subdirectory.
