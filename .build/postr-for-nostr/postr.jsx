@@ -6,7 +6,8 @@ const { render, useEffect, useState, Fragment, useRef } = wp.element;
 
 // import nostr-tools
 import { nip19, SimplePool, getEventHash } from 'nostr-tools'
-const nostr_tools = { nip19, SimplePool, getEventHash };
+import { Relay } from 'nostr-tools/relay';
+const nostr_tools = { nip19, SimplePool, getEventHash, Relay };
 
 const DEFAULT_RELAYS = [
     'wss://relay.damus.io',
@@ -238,7 +239,7 @@ const NostrPostr = (props) => {
                 </button>}
                 {relays && relays_visible && <ul className="postr-for-nostr-app__postr-relays">
                     {Object.keys(relays).map((rkey) => {
-                        if (rkey.length && relays[rkey].write) {
+                        if (rkey.length) { // && relays[rkey].write) {
                             return <li key={rkey}>
                                 <span className="postr-for-nostr-app__postr-relay-label">{rkey}</span>
                                 <button title={'Remove Relay'} type="button" onClick={() => {
@@ -457,36 +458,64 @@ const NostrPostr = (props) => {
             }
             event.id = nostr_tools.getEventHash(event);
 
-            // console.log('event ready to send', event);
-            window.nostr.signEvent(event).then((event) => {
-                let subs_update = {};
-                Object.keys(relays).map(async (relay) => {
-                    subs_update = { ...subs };
-                    subs_update[relay].init = nostr_tools.relayInit(relay);
-                    subs_update[relay].init.on('error', () => {
-                        subs_update = { ...subs };
-                        subs_update[relay].success = false;
-                        set_subs(subs_update);
-                    })
-                    try {
-                        await subs_update[relay].init.connect();
-                    } catch (error) {
-                        // silence
-                    }
-                    subs_update[relay].pub = subs_update[relay].init.publish(event);
-                    subs_update[relay].pub.on('ok', () => {
-                        subs_update = { ...subs };
-                        subs_update[relay].success = true;
-                        set_subs(subs_update);
-                    })
-                    subs_update[relay].pub.on('failed', reason => {
-                        subs_update = { ...subs };
-                        subs_update[relay].success = false;
-                        set_subs(subs_update);
-                    })
-                });
+            // console.log('event ready to send', {event: event}, {relays: relays});
+            window.nostr.signEvent(event).then(async (event) => {
+                // Update the main event state if necessary
                 set_event(event);
-                set_subs(subs_update);
+
+                const relayUrls = Object.keys(relays);
+
+                const publicationStatusMap = await publishEventSequentially(relayUrls, event);
+
+                set_subs(prevSubs => {
+                    const newSubs = { ...prevSubs };
+                    publicationStatusMap.forEach((status, relayUrl) => {
+                        if (newSubs[relayUrl]) {
+                            newSubs[relayUrl] = {
+                                ...newSubs[relayUrl],
+                                success: status.success,
+                                message: status.message,
+                            };
+                        } else {
+                            newSubs[relayUrl] = {
+                                init: null,
+                                pub: null,
+                                success: status.success,
+                                message: status.message,
+                            };
+                        }
+                    });
+                    return newSubs;
+                });
+
+                // let subs_update = {};
+                // Object.keys(relays).map(async (relay) => {
+                //     subs_update = { ...subs };
+                //     subs_update[relay].init = nostr_tools.relayInit(relay);
+                //     subs_update[relay].init.on('error', () => {
+                //         subs_update = { ...subs };
+                //         subs_update[relay].success = false;
+                //         set_subs(subs_update);
+                //     })
+                //     try {
+                //         await subs_update[relay].init.connect();
+                //     } catch (error) {
+                //         // silence
+                //     }
+                //     subs_update[relay].pub = subs_update[relay].init.publish(event);
+                //     subs_update[relay].pub.on('ok', () => {
+                //         subs_update = { ...subs };
+                //         subs_update[relay].success = true;
+                //         set_subs(subs_update);
+                //     })
+                //     subs_update[relay].pub.on('failed', reason => {
+                //         subs_update = { ...subs };
+                //         subs_update[relay].success = false;
+                //         set_subs(subs_update);
+                //     })
+                // });
+                // set_event(event);
+                // set_subs(subs_update);
             }).catch((error) => {
                 set_postring_error([
                     ...postring_error,
@@ -532,6 +561,45 @@ const NostrPostr = (props) => {
         {!initializing && <Postr />}
     </Fragment>);
 }
+
+// --- New Function to publish sequentially ---
+// This function needs to be defined somewhere accessible,
+// for example, in a separate utility file or within your component/hook scope.
+async function publishEventSequentially(
+    relays, // Array of relay URLs - removed ': string[]'
+    signedEvent // The event *already signed* by window.nostr.signEvent - removed ': Event'
+  ) { // Removed ': Promise<Map<string, { success: boolean; message?: string }>>'
+    const results = new Map(); // Removed '<string, { success: boolean; message?: string }>'
+  
+    for (const relayUrl of relays) {
+      let relay; // Removed ': Relay | undefined'
+      try {
+        // 1. Establish connection to the relay
+        relay = await Relay.connect(relayUrl);
+        console.log(`Connected to ${relayUrl}`);
+  
+        // 2. Publish the event
+        await relay.publish(signedEvent);
+  
+        console.log(`Successfully sent event to ${relayUrl}`);
+        results.set(relayUrl, { success: true });
+  
+      } catch (error) { // Removed ': any'
+        console.error(`Failed to connect or send event to ${relayUrl}:`, error.message);
+        results.set(relayUrl, { success: false, message: error.message });
+      } finally {
+        // 3. Close the connection
+        if (relay) {
+          relay.close();
+          console.log(`Disconnected from ${relayUrl}`);
+        }
+      }
+      // Add a small delay between attempts to avoid overwhelming relays
+      await new Promise(resolve => setTimeout(resolve, 300)); // 300ms delay
+    }
+  
+    return results;
+  }
 
 // used to shorten the npub like npubxxxx:xxxxxxxx
 function shorten_string(string) {
