@@ -93,8 +93,8 @@ class Assets {
 				}
 
 				$post_data = array(
-					'excerpt'    => get_the_excerpt( $post[0] ),
-					'title'      => get_the_title( $post[0] ),
+					'excerpt'    => wp_strip_all_tags( html_entity_decode( get_the_excerpt( $post[0] ) ) ),
+					'title'      => wp_strip_all_tags( html_entity_decode( get_the_title( $post[0] ) ) ),
 					'permalink'  => get_permalink( $post[0] ),
 					'taxonomies' => $taxonomies,
 				);

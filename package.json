@@ -1,32 +1,33 @@
 {
-    "name": "postr-for-nostr",
-    "version": "1.0.0",
-    "description": "=== Postr For Nostr ===",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "webpack --mode development",
-        "build": "webpack --mode production"
-    },
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "@babel/plugin-transform-react-jsx": "^7.21.5",
-        "@babel/plugin-transform-runtime": "^7.21.4",
-        "@babel/preset-env": "^7.21.5",
-        "@babel/preset-react": "^7.18.6",
-        "babel-loader": "^10.0.0",
-        "css-loader": "^7.1.2",
-        "mini-css-extract-plugin": "^2.7.6",
-        "nostr-tools": "^2.11.0",
-        "sass": "^1.86.0",
-        "sass-loader": "^16.0.5",
-        "style-loader": "^4.0.0",
-        "webpack": "^5.83.1",
-        "webpack-cli": "^6.0.1"
-    },
-    "engines": {
-        "node": "22.16.0",
-        "npm": "10.9.2"
-    }
+  "name": "postr-for-nostr",
+  "version": "1.0.5",
+  "description": "=== Postr For Nostr ===",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.21.5",
+    "@babel/plugin-transform-runtime": "^7.21.4",
+    "@babel/preset-env": "^7.21.5",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/runtime": "^7.28.4",
+    "babel-loader": "^10.0.0",
+    "css-loader": "^7.1.2",
+    "mini-css-extract-plugin": "^2.7.6",
+    "nostr-tools": "2.11.0",
+    "sass": "^1.86.0",
+    "sass-loader": "^16.0.5",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.83.1",
+    "webpack-cli": "^6.0.1"
+  },
+  "engines": {
+    "node": "24.12.0",
+    "npm": "11.6.2"
+  }
 }
